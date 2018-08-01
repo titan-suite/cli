@@ -38,9 +38,13 @@ Command Line Interface for interacting smart contract development on AION
 
 - `titan test test/contracts/testExample.js`
 
-### Generate a React dApp 
+### Generate a simple dApp 
 
 - `titan init`
+
+### Use a prebuilt dApp
+
+- `titan unpack`
 
 ### Lint a smart contract
 
