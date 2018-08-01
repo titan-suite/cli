@@ -1,0 +1,45 @@
+{
+  "name": "@titan-suite/cli",
+  "version": "0.0.1-alpha",
+  "description": "CLI for Titan",
+  "main": "index.js",
+  "bin": {
+    "titan": "./index.js"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "web3",
+    "ethereum",
+    "cli",
+    "aion",
+    "blockchain",
+    "dapp",
+    "smart",
+    "contract"
+  ],
+  "author": {
+    "name": "Northern Block",
+    "url": "https://titan-suite.com"
+  },
+  "repository": "https://github.com/titan-suite/cli",
+  "license": "Apache 2.0",
+  "dependencies": {
+    "aion-web3": "0.0.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "child_process": "^1.0.2",
+    "commander": "^2.16.0",
+    "download-git-repo": "^1.0.2",
+    "fs": "0.0.1-security",
+    "inquirer": "^6.0.0",
+    "mocha": "^5.2.0",
+    "repl": "^0.1.3",
+    "solhint": "^1.2.1"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0"
+  }
+}
