@@ -162,7 +162,7 @@ program
   .alias('i')
   .description('Provides boilerplate code with everything needed to develop a dApp with AION')
   .action(() => {
-    download('bitbucket:northernblockinc/titan-default-pack.git#master', process.cwd(), function (err) {
+    download('github:titan-suite-packs/default-pack.git#master', process.cwd(), function (err) {
       console.log(err ? 'Error' : 'Successfully unpacked default dApp')
     })
   })
@@ -176,17 +176,17 @@ program
     const downloadPack = (_pack) => {
       switch (_pack) {
         case "react":
-          download('bitbucket:northernblockinc/titan-react-pack.git#master', process.cwd(), function (err) {
+          download('github:titan-suite-packs/react-pack.git#master', process.cwd(), function (err) {
             console.log(err ? 'Error' : 'Successfully unpacked React dApp')
           })
           break;
         // case "vue":
-        //   download('bitbucket:northernblockinc/titan-vue-pack.git#master', process.cwd(), function (err) {
+        //   download('github:titan-suite-packs/vue-pack.git#master', process.cwd(), function (err) {
         //     console.log(err ? 'Error' : 'Successfully unpacked Vue dApp')
         //   })
         //   break;
         default:
-          download('bitbucket:northernblockinc/titan-default-pack.git#master', process.cwd(), function (err) {
+          download('github:titan-suite-packs/default-pack.git#master', process.cwd(), function (err) {
             console.log(err ? 'Error' : 'Successfully unpacked default dApp')
           })
           break;
