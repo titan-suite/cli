@@ -1,7 +1,7 @@
 {
   "name": "@titan-suite/cli",
-  "version": "0.0.5-alpha",
-  "description": "CLI for Titan",
+  "version": "0.0.6-alpha",
+  "description": "CLI for Titan Suite",
   "main": "index.js",
   "bin": {
     "titan": "./index.js"

@@ -7,11 +7,19 @@ Command Line Interface for interacting smart contract development on AION
 ## Setup
 
 - `npm i -g @titan-suite/cli` or `yarn add global @titan-suite/cli`
-- In `titanrc.js`, specify the following:
-    - `host`: the 
+- In your project root, create a `titanrc.js` file and specify the following:
+    - `host`: the URL of your `aion-web3` provider
     - `port`: the port exposing an `aion-web3` instance, usually *8545*
     - `mainAccount`: the default address to call functions with
     - `mainAccountPass`: the password of this account
+    - ```javascript
+            module.exports = {
+                "host": "http://127.0.0.1",
+                "port": 8545,
+                "defaultAccount": "",
+                "password": ""
+            }
+    ```
 ---
 
 ## Examples
