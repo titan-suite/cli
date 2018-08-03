@@ -30,7 +30,7 @@ Command Line Interface for interacting on AION
 - `titan unlock`
 - You will be prompted to enter an AION address and password
 
-![](screenshots/console.png)
+![](screenshots/unlock.png)
 
 ### Compile a contract:
 
@@ -57,7 +57,7 @@ Command Line Interface for interacting on AION
 
 - `titan test <path/to/contracts/testExample.js>`
 
-![](screenshots/compile.png)
+![](screenshots/test.png)
 
 ### Generate a simple dApp 
 
