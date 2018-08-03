@@ -1,6 +1,6 @@
 # Titan-CLI
 
-Command Line Interface for interacting smart contract development on AION
+Command Line Interface for interacting on AION 
 
 ---
 
@@ -12,14 +12,14 @@ Command Line Interface for interacting smart contract development on AION
     - `port`: the port exposing an `aion-web3` instance, usually *8545*
     - `mainAccount`: the default address to call functions with
     - `mainAccountPass`: the password of this account
-    - ```javascript
-            module.exports = {
-                "host": "http://127.0.0.1",
-                "port": 8545,
-                "defaultAccount": "",
-                "password": ""
-            }
-      ```
+```javascript
+   module.exports = {
+       "host": "http://127.0.0.1",
+       "port": 8545,
+       "defaultAccount": "",
+       "password": ""
+   }
+```
 ---
 
 ## Examples
@@ -28,15 +28,19 @@ Command Line Interface for interacting smart contract development on AION
 ### Unlock an account:
 
 - `titan unlock`
-- Enter an AION address and password
+- You will be prompted to enter an AION address and password
+
+![](screenshots/console.png)
 
 ### Compile a contract:
 
 - `titan compile <path/to/contracts/Example.sol>`
 - Compile specific contract 
     - `titan compile <path/to/contracts/Example.sol> -n <contract_name>`
-- Output more details about contract
+- Output more details about the contract
     - `titan compile <path/to/contracts/Example.sol> -d`
+
+![](screenshots/compile.png)
 
 ### Deploy a contract:
 
@@ -47,10 +51,13 @@ Command Line Interface for interacting smart contract development on AION
     - `titan deploy -p 5 <path/to/contracts/Example.sol>`
 - The details of the deployed contract will be stored as `./build/bots/<contractName>.json`
 
+![](screenshots/deploy.png)
 
 ### Run a unit test file
 
-- `titan test test/contracts/testExample.js`
+- `titan test <path/to/contracts/testExample.js>`
+
+![](screenshots/compile.png)
 
 ### Generate a simple dApp 
 
@@ -59,15 +66,20 @@ Command Line Interface for interacting smart contract development on AION
 ### Use a prebuilt dApp
 
 - `titan unpack`
+    - Select which pack you want from the options
 - `titan unpack <pack_name>`
 
 ### Lint a smart contract
 
-- `titan lint test/contracts/Bad.sol`
+- `titan lint <path/to/contracts/Bad.sol>`
 
-### Launch a `web3`-ready console on your node
+![](screenshots/lint.png)
+
+### Launch an `aion-web3`-ready console on your AION node
 
 - `titan console`
+
+![](screenshots/console.png)
 
 ---
 
