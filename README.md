@@ -19,7 +19,7 @@ Command Line Interface for interacting smart contract development on AION
                 "defaultAccount": "",
                 "password": ""
             }
-    ```
+      ```
 ---
 
 ## Examples
@@ -33,6 +33,10 @@ Command Line Interface for interacting smart contract development on AION
 ### Compile a contract:
 
 - `titan compile <path/to/contracts/Example.sol>`
+- Compile specific contract 
+    - `titan compile <path/to/contracts/Example.sol> -n <contract_name>`
+- Output more details about contract
+    - `titan compile <path/to/contracts/Example.sol> -d`
 
 ### Deploy a contract:
 
@@ -41,6 +45,8 @@ Command Line Interface for interacting smart contract development on AION
     - `titan deploy -n Test <path/to/contracts/Example.sol>`
 - Pass parameters:
     - `titan deploy -p 5 <path/to/contracts/Example.sol>`
+- The details of the deployed contract will be stored as `./build/bots/<contractName>.json`
+
 
 ### Run a unit test file
 
@@ -53,6 +59,7 @@ Command Line Interface for interacting smart contract development on AION
 ### Use a prebuilt dApp
 
 - `titan unpack`
+- `titan unpack <pack_name>`
 
 ### Lint a smart contract
 
