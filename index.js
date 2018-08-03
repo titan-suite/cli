@@ -32,19 +32,40 @@ const mkdir = (name) =>
   })
 
 program
-  .version('0.0.1', '-v, --version')
+  .version('0.0.7-alpha', '-v, --version')
   .description('CLI tool for Titan')
 
 program
   .command('compile <contract>')
   .alias('c')
   .description('Compiles a Solidity smart contract')
-  .action(async (contract) => {
+  .option('-n, --contract_name <name>', 'Specify which contract to compile')
+  .option('-d, --detailed_output', 'Return more detail about the contract')
+  .action(async (contract, options) => {
     const sol = fs.readFileSync(process.cwd() + '/' + contract, {
       encoding: 'utf8'
     })
     const res = await compile(sol)
-    console.log(res)
+
+    if (options.contract_name && options.detailed_output) {
+      console.log(JSON.stringify(res[`${options.contract_name}`], null, 2))
+    }
+    else if (options.contract_name && !options.detailed_output) {
+      console.log(JSON.stringify(res[`${options.contract_name}`].info.abiDefinition, null, 2))
+    }
+    else if (!options.contract_name && options.detailed_output) {
+      Object.keys(res).map((i, value) => {
+        console.log("\n\n<<{" + value + "} " + i + ">>\n")
+        console.log(JSON.stringify(res[`${Object.keys(res)[value]}`], null, 2))
+      })
+    }
+    else {
+      Object.keys(res).map((i, value) => {
+        console.log("\n\n<<{" + value + "} " + i + ">>\n")
+        console.log(JSON.stringify(res[`${Object.keys(res)[value]}`].info.abiDefinition, null, 2))
+      })
+    }
+
   })
 
 program
