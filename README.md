@@ -30,7 +30,7 @@ Command Line Interface for interacting on AION
 - `titan unlock`
 - You will be prompted to enter an AION address and password
 
-![](screenshots/unlock.png)
+![](https://s33.postimg.cc/8nt4t641b/unlock.png)
 
 ### Compile a contract:
 
@@ -40,7 +40,7 @@ Command Line Interface for interacting on AION
 - Output more details about the contract
     - `titan compile <path/to/contracts/Example.sol> -d`
 
-![](screenshots/compile.png)
+![](https://s33.postimg.cc/41x0ksvcv/compile.png)
 
 ### Deploy a contract:
 
@@ -51,13 +51,13 @@ Command Line Interface for interacting on AION
     - `titan deploy -p 5 <path/to/contracts/Example.sol>`
 - The details of the deployed contract will be stored as `./build/bots/<contractName>.json`
 
-![](screenshots/deploy.png)
+![](https://s33.postimg.cc/bhwa6lqrz/deploy.png)
 
-### Run a unit test file
+### Run unit test
 
 - `titan test <path/to/contracts/testExample.js>`
 
-![](screenshots/test.png)
+![](https://s33.postimg.cc/m4q3c16n3/test.png)
 
 ### Generate a simple dApp 
 
@@ -74,13 +74,13 @@ Command Line Interface for interacting on AION
 
 - `titan lint <path/to/contracts/Bad.sol>`
 
-![](screenshots/lint.png)
+![](https://s33.postimg.cc/8b1qn0173/lint.png)
 
 ### Launch an `aion-web3`-ready console on your AION node
 
 - `titan console`
 
-![](screenshots/console.png)
+![](https://s33.postimg.cc/dz81dvxtr/console.png)
 
 ---
 
