@@ -61,7 +61,8 @@ Command Line Interface for interacting on AION
 
 ### Generate a simple dApp 
 
-- `titan init`
+- In the current directory: `titan init`
+- In a new directory: `titan init new_dapp`
 
 ### Use a prebuilt dApp
 

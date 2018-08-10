@@ -4,6 +4,7 @@ const program = require('commander')
 const { prompt } = require('inquirer')
 const { spawn } = require('child_process')
 const fs = require('fs')
+const chalk = require('chalk')
 const download = require('download-git-repo')
 const MOCHA = './node_modules/mocha/bin/mocha'
 const { compile, unlock, deploy } = require('./util.js')
@@ -179,13 +180,48 @@ program
   })
 
 program
-  .command('init')
+  .command('init [name]')
   .alias('i')
-  .description('Provides boilerplate code with everything needed to develop a dApp with AION')
-  .action(() => {
-    download('github:titan-suite-packs/default-pack', process.cwd(), function (err) {
-      console.log(err ? 'Error' : 'Successfully unpacked default dApp')
-    })
+  .description('Creates a skeleton dApp with AION')
+  .action(async (name) => {
+    if (!name) {
+      fs.readdir(process.cwd(), (err, files) => {
+        if (err) throw err
+
+        if (files.length) {
+          console.log(chalk`
+          {yellow.bold WARNING}
+          {yellow Some existing files may be overwritten.}
+          `)
+          prompt([
+            {
+              type: 'list',
+              name: 'overwrite',
+              message: 'Do you want to continue?',
+              choices: ['Yes', 'No']
+            }
+          ])
+            .then(answer => {
+              if (answer['overwrite'] === 'Yes') {
+                download('github:titan-suite-packs/default-pack', process.cwd(), function (err) {
+                  console.log(err ? 'Error' : 'Successfully unpacked default dApp')
+                })
+              }
+            })
+        }
+        else {
+          download('github:titan-suite-packs/default-pack', process.cwd(), function (err) {
+            console.log(err ? 'Error' : 'Successfully unpacked default dApp')
+          })
+        }
+      })
+    }
+    else {
+      await (mkdir(name))
+      download('github:titan-suite-packs/default-pack', `${process.cwd()}/${name}`, function (err) {
+        console.log(err ? 'Error' : 'Successfully unpacked default dApp')
+      })
+    }
   })
 
 program

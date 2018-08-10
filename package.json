@@ -1,6 +1,6 @@
 {
   "name": "@titan-suite/cli",
-  "version": "0.0.8-alpha",
+  "version": "0.0.9-alpha",
   "description": "CLI for Titan Suite",
   "main": "index.js",
   "bin": {
@@ -20,9 +20,10 @@
     "contract"
   ],
   "author": {
-    "name": "Northern Block",
+    "name": "Tomisin Jenrola",
     "url": "https://titan-suite.com"
   },
+  "homepage": "https://titan-suite.com",
   "repository": "https://github.com/titan-suite/cli",
   "license": "Apache 2.0",
   "dependencies": {
@@ -30,6 +31,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
+    "chalk": "^2.4.1",
     "child_process": "^1.0.2",
     "commander": "^2.16.0",
     "download-git-repo": "^1.0.2",
