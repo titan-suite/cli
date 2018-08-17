@@ -33,7 +33,7 @@ const mkdir = (name) =>
   })
 
 program
-  .version('0.0.9-alpha', '-v, --version')
+  .version('0.0.10-alpha', '-v, --version')
   .description('CLI tool for Titan')
 
 program
