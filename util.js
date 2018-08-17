@@ -1,9 +1,9 @@
 const Web3 = require('aion-web3');
-const { host, port } = require(`${process.cwd()}/titanrc.js`);
+const { host, port, defaultAccount } = require(`${process.cwd()}/titanrc.js`);
 const provider = `${host}:${port}`;
 
 const web3 = new Web3(new Web3.providers.HttpProvider(provider))
-const mainAccount = web3.personal.listAccounts[0]
+const mainAccount = defaultAccount || web3.personal.listAccounts[0]
 
 const compile = async function (sol) {
   return new Promise((resolve, reject) => {
