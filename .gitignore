@@ -1,5 +1,11 @@
+*-debug.log
+*-error.log
+/.nyc_output
+/dist
+/lib
+/package-lock.json
 node_modules
-test/tmp
-test/build
 build
+test/build
+titanrc.js
 .vscode
