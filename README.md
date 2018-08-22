@@ -22,8 +22,8 @@ The complete Smart Contract development CLI
 - In your project root, create a `titanrc.js` file and specify the following:
     - `host`: the URL of your `aion-web3` provider
     - `port`: the port exposing an `aion-web3` instance, usually *8545*
-    - `mainAccount`: the default address to call functions with
-    - `mainAccountPass`: the password of this account
+    - `defaultAccount` [optional]: the default address to call functions with
+    - `password` [optional]: the password of this account
 ```javascript
    module.exports = {
        "host": "http://127.0.0.1",
@@ -39,13 +39,15 @@ The complete Smart Contract development CLI
 ## Help
 - `titan --help`
 
+![](https://s15.postimg.cc/dlbpyw5jf/help.gif)
+
 ## `titan init` 
 
 Generate an empty Titan project
 - in the current directory: `titan init`
 - in a new directory: `titan init <name>`
 
---
+![](https://s15.postimg.cc/aeh6fbijf/init.gif)
 
 ## `titan unpack`
 
@@ -54,7 +56,7 @@ Start a new project with a pre-built dApp
     - choose a pack from the options
 - `titan unpack <name>`
 
---
+![](https://s15.postimg.cc/cj1jgqrzf/unpack.gif)
 
 ## `titan compile`
 
@@ -65,9 +67,7 @@ Compile a Solidity smart contract
 - Output more details about the contract
     - `titan compile -d <path/to/contracts/Example.sol>`
 
-![](https://s33.postimg.cc/41x0ksvcv/compile.png)
-
---
+![](https://s15.postimg.cc/88mvkpk6z/compile.gif)
 
 ## `titan deploy`
 
@@ -79,27 +79,21 @@ Deploy a smart contract to an AION node
     - `titan deploy -p 5 <path/to/contracts/Example.sol>`
 _The details of the deployed contract will be stored as `./build/bots/<contractName>.json`_
 
-![](https://s33.postimg.cc/bhwa6lqrz/deploy.png)
-
---
+![](https://s15.postimg.cc/rf02obvob/deploy.gif)
 
 ## `titan lint`
 
 Lint a smart contract
 - `titan lint <path/to/contracts/Example.sol>`
 
-![](https://s33.postimg.cc/8b1qn0173/lint.png)
-
---
+![](https://s15.postimg.cc/4qavos1fv/lint.gif)
 
 ## `titan test`
 
 Run unit tests
 - `titan test <path/to/contracts/testExample.js>`
 
-![](https://s33.postimg.cc/m4q3c16n3/test.png)
-
---
+![](https://s15.postimg.cc/okwxawod7/test.gif)
 
 ## `titan unlock`
 
@@ -111,13 +105,11 @@ Unlock an account
     - `titan unlock -a <0x...> -p <pwd>`
 _You will be prompted to enter an AION address and password_
 
-![](https://s33.postimg.cc/8nt4t641b/unlock.png)
-
---
+![](https://s15.postimg.cc/ulum7y8ej/unlock.gif)
 
 ## `titan console`
 
 Interact with an AION node with an injected `aion-web3` instance
 - `titan console`
 
-![](https://s33.postimg.cc/dz81dvxtr/console.png)
+![](https://s15.postimg.cc/twbtvmpvf/console.gif)
