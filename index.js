@@ -4,10 +4,13 @@ const program = require('commander')
 const { prompt } = require('inquirer')
 const { spawn } = require('child_process')
 const fs = require('fs')
+const path = require('path')
 const chalk = require('chalk')
 const download = require('download-git-repo')
+const mkdirp = require('mkdirp')
 const MOCHA = './node_modules/mocha/bin/mocha'
 const { compile, unlock, deploy } = require('./util.js')
+const utf8 = {encoding: 'utf8'}
 
 const questions = [
   {
@@ -20,17 +23,15 @@ const questions = [
   }
 ]
 
-const mkdir = (name) =>
-  new Promise((resolve, reject) => {
-    fs.existsSync(`${process.cwd()}/${name}`)
-      ?
-      resolve(true)
-      :
-      fs.mkdir(`${process.cwd()}/${name}`, (err, res) => {
-        if (err) reject(err)
-        else resolve(res)
-      })
-  })
+const contractPath = (contract) => {
+  // optional .sol
+  const contractFile = contract.endsWith('.sol') ? contract : `${contract}.sol`
+  return path.join(process.cwd(), contractFile)
+}
+
+const readUtf8 = (absolutePath) => fs.readFileSync(absolutePath, utf8)
+
+const readContract = (contract) => readUtf8(contractPath(contract))
 
 program
   .version('0.0.10-alpha', '-v, --version')
@@ -43,9 +44,7 @@ program
   .option('-n, --contract_name <name>', 'Specify which contract to compile')
   .option('-d, --detailed_output', 'Return more detail about the contract')
   .action(async (contract, options) => {
-    const sol = fs.readFileSync(process.cwd() + '/' + contract, {
-      encoding: 'utf8'
-    })
+    const sol = readContract(contract)
     const res = await compile(sol)
 
     if (options.contract_name && options.detailed_output) {
@@ -86,9 +85,7 @@ program
   .option('-p, --contract_args <params>', 'Pass parameters to the smart contract')
   .description(('Deploys a Solidity smart contract to an AION node'))
   .action(async (contract, options) => {
-    const sol = fs.readFileSync(process.cwd() + '/' + contract, {
-      encoding: 'utf8'
-    })
+    const sol = readContract(contract)
     const compiledContract = await compile(sol)
 
     let contractName
@@ -112,13 +109,13 @@ program
       console.log("to:", deployedContract["to"])
       console.log("logs:", deployedContract["logs"])
 
-      await mkdir("build")
-      await mkdir("build/bolts")
+      mkdirp("build/bolts")
 
-      fs.open(`${process.cwd()}/build/bolts/${name}.json`, 'w', (err, fd) => {
+      const boltsPath = path.join(process.cwd(), 'build', 'bolts', `${name}.json`)
+      fs.open(boltsPath, 'w', (err, fd) => {
         if (err) {
           if (err.code === 'EEXIST') {
-            fs.unlink(`${process.cwd()}/build/bolts/${name}.json`, (err) => {
+            fs.unlink(boltsPath, (err) => {
               if (err) throw err;
             })
           }
@@ -132,7 +129,7 @@ program
             'transaction_hash': deployedContract["transactionHash"],
             'block_number': deployedContract["blockNumber"]
           }
-          fs.writeFile(`${process.cwd()}/build/bolts/${name}.json`, JSON.stringify(deployedContractDetails, null, 4), (err) => {
+          fs.writeFile(boltsPath, JSON.stringify(deployedContractDetails, null, 4), (err) => {
             if (err) throw err
           })
         }
@@ -217,7 +214,7 @@ program
       })
     }
     else {
-      await (mkdir(name))
+      mkdirp(name)
       download('github:titan-suite-packs/default-pack', `${process.cwd()}/${name}`, function (err) {
         console.log(err ? 'Error' : 'Successfully unpacked default dApp')
       })
@@ -231,23 +228,9 @@ program
   .action((pack) => {
 
     const downloadPack = (_pack) => {
-      switch (_pack) {
-        case "react":
-          download('github:titan-suite-packs/react-pack', process.cwd(), function (err) {
-            console.log(err ? 'Error' : 'Successfully unpacked React dApp')
-          })
-          break;
-        // case "vue":
-        //   download('github:titan-suite-packs/vue-pack', process.cwd(), function (err) {
-        //     console.log(err ? 'Error' : 'Successfully unpacked Vue dApp')
-        //   })
-        //   break;
-        default:
-          download('github:titan-suite-packs/default-pack', process.cwd(), function (err) {
-            console.log(err ? 'Error' : 'Successfully unpacked default dApp')
-          })
-          break;
-      }
+      download(`github:titan-suite-packs/${_pack}-pack`, process.cwd(), err => {
+        console.log(err ? 'Error' : `Successfully unpacked ${_pack} dApp`)
+      })
     }
 
     if (!pack) {
@@ -255,8 +238,7 @@ program
         type: 'list',
         name: 'selected_pack',
         message: 'Choose a pack to download',
-        choices: ['react', 'default'],
-        // choices: ['react', 'vue', 'default'],
+        choices: ['react', 'default']
       }]
 
       prompt(promptQuestions)
