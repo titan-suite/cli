@@ -1,11 +1,33 @@
-const Web3 = require('aion-web3');
-const { host, port, defaultAccount } = require(`${process.cwd()}/titanrc.js`);
-const provider = `${host}:${port}`;
+const fs = require('fs')
+const path = require('path')
+const Web3 = require('aion-web3')
 
-const web3 = new Web3(new Web3.providers.HttpProvider(provider))
-const mainAccount = defaultAccount || web3.personal.listAccounts[0]
+let port
+let host
+let defaultAccount
+let providerUrl
+let web3
+
+function init() {
+  if (web3 !== undefined) {
+    // its already initialized
+    return
+  }
+  const titanrcPath = path.join(process.cwd(), 'titanrc.js')
+  const titanrcExists = fs.existsSync(titanrcPath)
+  if (titanrcExists === false) {
+    throw new Error(`${titanrcPath} not found`)
+  }
+  const titanrc = require(titanrcPath)
+  port = titanrc.port || 8545
+  host = titanrc.host || '127.0.0.1'
+  defaultAccount = titanrc.defaultAccount
+  provider = `${host}:${port}`
+  web3 = new Web3(new Web3.providers.HttpProvider(provider))
+}
 
 const compile = async function (sol) {
+  init()
   return new Promise((resolve, reject) => {
     web3.eth.compile.solidity(sol, (err, res) => {
       if (err) {
@@ -20,6 +42,7 @@ const compile = async function (sol) {
 }
 
 const unlock = async function (addr, pw) {
+  init()
   return new Promise((resolve, reject) => {
     web3.personal.unlockAccount(addr, pw, 999999, (err, unlock) => {
       if (err) reject(err)
@@ -34,6 +57,8 @@ const unlock = async function (addr, pw) {
 }
 
 const deploy = async function (abi, code, args) {
+  init()
+  const mainAccount = defaultAccount || web3.personal.listAccounts[0]
   return new Promise((resolve, reject) => {
     console.log('deploying...\n')
     if (args && args.length > 0) {
