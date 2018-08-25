@@ -22,13 +22,8 @@ The complete Smart Contract development CLI
 - In your project root, create a `titanrc.js` file and specify the following:
     - `host`: the URL of your `aion-web3` provider
     - `port`: the port exposing an `aion-web3` instance, usually *8545*
-<<<<<<< 796e25f848b087bda2c3c0ba5f03c8f2e8062a23
-    - `defaultAccount`: the default address to call functions with
-    - `password`: the password of this account
-=======
     - `defaultAccount` [optional]: the default address to call functions with
     - `password` [optional]: the password of this account
->>>>>>> Added GIFS
 ```javascript
    module.exports = {
        "host": "http://127.0.0.1",
