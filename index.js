@@ -10,7 +10,7 @@ const download = require('download-git-repo')
 const mkdirp = require('mkdirp')
 const MOCHA = './node_modules/mocha/bin/mocha'
 const { compile, unlock, deploy } = require('./util.js')
-const utf8 = {encoding: 'utf8'}
+const utf8 = { encoding: 'utf8' }
 
 const questions = [
   {
@@ -34,7 +34,7 @@ const readUtf8 = (absolutePath) => fs.readFileSync(absolutePath, utf8)
 const readContract = (contract) => readUtf8(contractPath(contract))
 
 program
-  .version('0.0.10-alpha', '-v, --version')
+  .version('0.0.11-alpha', '-v, --version')
   .description('CLI tool for Titan')
 
 program
