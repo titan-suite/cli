@@ -8,10 +8,10 @@ The complete Smart Contract development CLI
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@titan-suite/cli.svg)](https://npmjs.org/package/@titan-suite/cli)
 
-[![CircleCI](https://circleci.com/gh/titan-suite/cli/tree/master.svg?style=shield)](https://circleci.com/gh/titan-suite/cli/tree/master)
+<!-- [![CircleCI](https://circleci.com/gh/titan-suite/cli/tree/master.svg?style=shield)](https://circleci.com/gh/titan-suite/cli/tree/master)
 
 [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/titan-suite/cli?branch=master&svg=true)](https://ci.appveyor.com/project/titan-suite/cli/branch/master)
-[![Codecov](https://codecov.io/gh/titan-suite/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/titan-suite/cli)
+[![Codecov](https://codecov.io/gh/titan-suite/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/titan-suite/cli) -->
 [![Downloads/week](https://img.shields.io/npm/dw/@titan-suite/cli.svg)](https://npmjs.org/package/@titan-suite/cli)
 [![License](https://img.shields.io/npm/l/@titan-suite/cli.svg)](https://github.com/titan-suite/cli/blob/master/package.json)
 
@@ -61,22 +61,22 @@ Start a new project with a pre-built dApp
 ## `titan compile`
 
 Compile a Solidity smart contract
-- `titan compile <path/to/contracts/Example.sol>`
+- `titan compile path/to/contracts/Example.sol`
 - Compile a specific contract withing a file
-    - `titan compile -n SpecificContract <path/to/contracts/ManyContracts.sol>`
+    - `titan compile -n SpecificContract path/to/contracts/ManyContracts.sol`
 - Output more details about the contract
-    - `titan compile -d <path/to/contracts/Example.sol>`
+    - `titan compile -d path/to/contracts/Example.sol`
 
 ![](https://s15.postimg.cc/88mvkpk6z/compile.gif)
 
 ## `titan deploy`
 
 Deploy a smart contract to an AION node
-- `titan deploy <path/to/contracts/Example.sol>`
+- `titan deploy path/to/contracts/Example.sol`
 - Deploy a specific contract within a contract file:
-    - `titan deploy -n Test <path/to/contracts/Example.sol>`
+    - `titan deploy -n Test path/to/contracts/Example.sol`
 - Pass parameters:
-    - `titan deploy -p 5 <path/to/contracts/Example.sol>`
+    - `titan deploy -p 5 path/to/contracts/Example.sol`
 _The details of the deployed contract will be stored as `./build/bots/<contractName>.json`_
 
 ![](https://s15.postimg.cc/rf02obvob/deploy.gif)
@@ -84,14 +84,16 @@ _The details of the deployed contract will be stored as `./build/bots/<contractN
 ## `titan lint`
 
 Lint a smart contract
-- `titan lint <path/to/contracts/Example.sol>`
+- `titan lint path/to/contracts/Example.sol`
+- lint multiple files within a directory
+    - `titan lint path/to/contracts/**/*.sol`
 
 ![](https://s15.postimg.cc/4qavos1fv/lint.gif)
 
 ## `titan test`
 
 Run unit tests
-- `titan test <path/to/contracts/testExample.js>`
+- `titan test path/to/contracts/testExample.js`
 
 ![](https://s15.postimg.cc/okwxawod7/test.gif)
 

@@ -1,5 +1,4 @@
 import { Command, flags } from '@oclif/command'
-import * as fs from 'fs'
 import { spawn } from 'child_process'
 
 export default class Lint extends Command {
@@ -17,10 +16,6 @@ export default class Lint extends Command {
 
     async run() {
         const { args, flags } = this.parse(Lint)
-
-        const sol = fs.readFileSync(process.cwd() + '/' + args.file, {
-            encoding: 'utf8'
-        })
 
         const solhint = require('solhint')
         spawn(`${solhint}`, [args.file], { stdio: 'inherit', cwd: process.cwd() })

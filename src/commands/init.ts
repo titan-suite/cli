@@ -1,6 +1,6 @@
 import { Command, flags } from '@oclif/command'
 import * as fs from 'fs'
-import * as chalk from 'chalk'
+import chalk from 'chalk'
 import { prompt, Answers } from 'inquirer'
 import { downloadPack } from '../utils/index'
 

@@ -1,6 +1,6 @@
 import { Command, flags } from '@oclif/command'
 import * as fs from 'fs'
-import { prompt } from 'inquirer'
+import { prompt, Answers } from 'inquirer'
 import { unlock } from '../utils/index'
 
 export default class Unlock extends Command {
@@ -36,12 +36,12 @@ export default class Unlock extends Command {
             await unlock(flags.address, flags.password)
         }
         else if (flags.address && !flags.password) {
-            prompt(this.questions[1]).then(async (answers) => {
+            prompt(this.questions[1]).then(async (answers: Answers) => {
                 await unlock(String(flags.address), answers['password'])
             })
         }
         else {
-            prompt(this.questions).then(async (answers) => {
+            prompt(this.questions).then(async (answers: Answers) => {
                 await unlock(answers['account'], answers['password'])
             })
         }
