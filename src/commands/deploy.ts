@@ -1,9 +1,11 @@
 import { Command, flags } from '@oclif/command'
 import * as fs from 'fs'
 import * as notifier from 'node-notifier'
+import * as mkdirp from 'mkdirp'
+import * as path from 'path'
 import { prompt, Answers } from 'inquirer'
 import cli from 'cli-ux'
-import { compile, deploy, mkdir } from '../utils/index'
+import { compile, deploy, readContract } from '../utils/index'
 
 export default class Deploy extends Command {
     static description = 'Deploys a Solidity smart contract to an AION node'
@@ -35,13 +37,13 @@ export default class Deploy extends Command {
         }
     }
 
-    async handleDeploy(_name: String, _compiledContract: any) {
+    async handleDeploy(_name: string, _compiledContract: any, _params?: any) {
         cli.action.start('deploying')
         const _abi = _compiledContract[`${_name}`].info.abiDefinition
         const _code = _compiledContract[`${_name}`].code
 
-        const deployedContract = flags.params ?
-            await deploy(_abi, String(_code), flags.params) :
+        const deployedContract: any = _params ?
+            await deploy(_abi, String(_code), _params) :
             await deploy(_abi, String(_code))
 
         this.log("Successfully deployed!")
@@ -55,13 +57,14 @@ export default class Deploy extends Command {
         this.log("to:", deployedContract["to"])
         this.log("logs:", deployedContract["logs"])
 
-        await mkdir("build")
-        await mkdir("build/bolts")
+        mkdirp("build/bolts", (err, made) => { if (err) throw err })
 
-        fs.open(`${process.cwd()}/build/bolts/${_name}.json`, 'w', (err, fd) => {
+
+        const boltsPath = path.join(process.cwd(), 'build', 'bolts', `${_name}.json`)
+        fs.open(boltsPath, 'w', (err, fd) => {
             if (err) {
                 if (err.code === 'EEXIST') {
-                    fs.unlink(`${process.cwd()}/build/bolts/${_name}.json`, (err) => {
+                    fs.unlink(boltsPath, (err) => {
                         if (err) throw err;
                     })
                 }
@@ -75,40 +78,39 @@ export default class Deploy extends Command {
                     'transaction_hash': deployedContract["transactionHash"],
                     'block_number': deployedContract["blockNumber"]
                 }
-                fs.writeFile(`${process.cwd()}/build/bolts/${_name}.json`, JSON.stringify(deployedContractDetails, null, 4), (err) => {
+                fs.writeFile(boltsPath, JSON.stringify(deployedContractDetails, null, 4), (err) => {
                     if (err) throw err
-                    notifier.notify({
-                        title: 'Titan',
-                        message: `🚀 Successfully deployed: ${_name}!`
-                    })
                 })
             }
         });
         cli.action.stop()
+
+        notifier.notify({
+            title: 'Titan',
+            message: `🚀 Successfully deployed: ${_name}!`
+        })
     }
 
     async run() {
         const { args, flags } = this.parse(Deploy)
 
-        const sol = fs.readFileSync(process.cwd() + '/' + args.file, {
-            encoding: 'utf8'
-        })
-        const compiledContract = await compile(sol)
+        const sol = readContract(args.file)
+        const compiledContract: any = await compile(sol)
 
         let contractName
 
         if (flags.name) {
             contractName = flags.name
-            this.handleDeploy(contractName, compiledContract)
+            this.handleDeploy(contractName, compiledContract, flags.params)
         } else if (Object.keys(compiledContract).length === 1) {
             contractName = Object.keys(compiledContract)[0]
-            this.handleDeploy(contractName, compiledContract)
+            this.handleDeploy(contractName, compiledContract, flags.params)
         } else {
             this.generateChoices(Object.keys(compiledContract))
 
-            const answer: Answers = prompt(this.questions)
+            const answer: Answers = await prompt(this.questions)
             contractName = answer["selected_contract"]
-            this.handleDeploy(contractName, compiledContract)
+            this.handleDeploy(contractName, compiledContract, flags.params)
         }
     }
 }

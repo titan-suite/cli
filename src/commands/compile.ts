@@ -1,6 +1,5 @@
 import { Command, flags } from '@oclif/command'
-import * as fs from 'fs'
-import { compile } from '../utils/index'
+import { compile, readContract } from '../utils/index'
 
 export default class Compile extends Command {
     static description = 'Compiles a Solidity smart contract and returns the ABI'
@@ -22,18 +21,18 @@ export default class Compile extends Command {
     async run() {
         const { args, flags } = this.parse(Compile)
 
-        const sol = fs.readFileSync(process.cwd() + '/' + args.file, {
-            encoding: 'utf8'
-        })
-        const res = await compile(sol)
+        const sol = readContract(args.file)
+        const res: any = await compile(sol)
 
-        if (flags.name && flags.detail) {
-            this.log(JSON.stringify(res[`${flags.name}`], null, 2))
+        const contractName = flags.name
+
+        if (contractName && flags.detail) {
+            this.log(JSON.stringify(res[`${contractName}`], null, 2))
         }
-        else if (flags.name && !flags.detail) {
-            this.log(JSON.stringify(res[`${flags.name}`].info.abiDefinition, null, 2))
+        else if (contractName && !flags.detail) {
+            this.log(JSON.stringify(res[`${contractName}`].info.abiDefinition, null, 2))
         }
-        else if (!flags.name && flags.detail) {
+        else if (!contractName && flags.detail) {
             Object.keys(res).map((i, value) => {
                 this.log("\n\n<<{" + value + "} " + i + ">>\n")
                 this.log(JSON.stringify(res[`${Object.keys(res)[value]}`], null, 2))
