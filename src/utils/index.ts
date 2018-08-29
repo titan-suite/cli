@@ -5,10 +5,10 @@ const Web3 = require('aion-web3')
 
 const utf8 = { encoding: 'utf8' }
 
-let port: String
-let host: String
-let defaultAccount: String
-let provider: String
+let port: string
+let host: string
+let defaultAccount: string
+let provider: string
 let web3: any
 
 const init = () => {
@@ -40,7 +40,7 @@ const readUtf8 = (absolutePath: string) => fs.readFileSync(absolutePath, utf8)
 
 export const readContract = (contract: any) => readUtf8(contractPath(contract))
 
-export const compile = async function (sol: String) {
+export const compile = async function (sol: string) {
     init()
     return new Promise((resolve, reject) => {
         web3.eth.compile.solidity(sol, (err: any, res: any) => {
@@ -55,7 +55,7 @@ export const compile = async function (sol: String) {
     })
 }
 
-export const unlock = async function (addr: String, pw: String) {
+export const unlock = async function (addr: string, pw: string) {
     init()
     return new Promise((resolve, reject) => {
         web3.personal.unlockAccount(addr, pw, 999999, (err: any, unlock: Boolean) => {
@@ -70,7 +70,7 @@ export const unlock = async function (addr: String, pw: String) {
     })
 }
 
-export const deploy = async function (abi: String, code: String, args?: any) {
+export const deploy = async function (abi: string, code: string, args?: any) {
     init()
     const mainAccount = defaultAccount || web3.personal.listAccounts[0]
     return new Promise((resolve, reject) => {
@@ -109,7 +109,7 @@ export const deploy = async function (abi: String, code: String, args?: any) {
     })
 }
 
-export const downloadPack = (_pack: String, _path?: String) => {
+export const downloadPack = (_pack: string, _path?: string) => {
     const downloadPath = _path || process.cwd()
 
     switch (_pack) {

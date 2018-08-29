@@ -31,7 +31,7 @@ export default class Deploy extends Command {
         choices: [],
     }]
 
-    generateChoices(arr: String[]) {
+    generateChoices(arr: string[]) {
         for (const i in arr) {
             this.questions[0].choices.push(arr[i])
         }
@@ -43,8 +43,8 @@ export default class Deploy extends Command {
         const _code = _compiledContract[`${_name}`].code
 
         const deployedContract: any = _params ?
-            await deploy(_abi, String(_code), _params) :
-            await deploy(_abi, String(_code))
+            await deploy(_abi, _code, _params) :
+            await deploy(_abi, _code)
 
         this.log("Successfully deployed!")
         this.log('Deployment Details:')
