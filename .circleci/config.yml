@@ -16,6 +16,7 @@ jobs:
           command: .circleci/greenkeeper
       - run: ./bin/run --version
       - run: ./bin/run --help
+      - run: wget $titanrc
       - run:
           name: Testing
           command: yarn test
