@@ -8,9 +8,9 @@ The complete Smart Contract development CLI
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@titan-suite/cli.svg)](https://npmjs.org/package/@titan-suite/cli)
 
-<!-- [![CircleCI](https://circleci.com/gh/titan-suite/cli/tree/master.svg?style=shield)](https://circleci.com/gh/titan-suite/cli/tree/master)
+[![CircleCI](https://circleci.com/gh/titan-suite/cli/tree/master.svg?style=shield)](https://circleci.com/gh/titan-suite/cli/tree/master)
 
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/titan-suite/cli?branch=master&svg=true)](https://ci.appveyor.com/project/titan-suite/cli/branch/master)
+<!-- [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/titan-suite/cli?branch=master&svg=true)](https://ci.appveyor.com/project/titan-suite/cli/branch/master)
 [![Codecov](https://codecov.io/gh/titan-suite/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/titan-suite/cli) -->
 [![Downloads/week](https://img.shields.io/npm/dw/@titan-suite/cli.svg)](https://npmjs.org/package/@titan-suite/cli)
 [![License](https://img.shields.io/npm/l/@titan-suite/cli.svg)](https://github.com/titan-suite/cli/blob/master/package.json)
