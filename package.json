@@ -1,48 +1,78 @@
 {
   "name": "@titan-suite/cli",
-  "version": "0.0.11-alpha",
-  "description": "CLI for Titan Suite",
-  "main": "index.js",
+  "description": "The complete smart contract development tool",
+  "version": "0.0.3",
+  "author": "Tomisin @ToJen",
   "bin": {
-    "titan": "./index.js"
+    "titan": "./bin/run"
   },
-  "scripts": {
-    "test": "mocha"
-  },
-  "keywords": [
-    "web3",
-    "ethereum",
-    "cli",
-    "aion",
-    "blockchain",
-    "dapp",
-    "smart",
-    "contract"
-  ],
-  "author": {
-    "name": "Tomisin Jenrola",
-    "url": "https://titan-suite.com"
-  },
-  "homepage": "https://titan-suite.com",
-  "repository": "https://github.com/titan-suite/cli",
-  "license": "Apache 2.0",
+  "bugs": "https://github.com/titan-suite/cli/issues",
   "dependencies": {
-    "aion-web3": "0.0.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
-    "chai": "^4.1.2",
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^2",
+    "@types/inquirer": "^0.0.42",
+    "@types/mkdirp": "^0.5.2",
+    "@types/node-notifier": "^0.0.28",
+    "aion-web3": "^0.0.3",
     "chalk": "^2.4.1",
     "child_process": "^1.0.2",
-    "commander": "^2.16.0",
+    "cli-ux": "^4.8.0",
     "download-git-repo": "^1.0.2",
-    "fs": "0.0.1-security",
-    "inquirer": "^6.0.0",
+    "global": "^4.3.2",
+    "inquirer": "^6.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
+    "node-notifier": "^5.2.1",
+    "path": "^0.12.7",
     "repl": "^0.1.3",
-    "solhint": "^1.2.1"
+    "solhint": "^1.2.1",
+    "tslib": "^1"
   },
   "devDependencies": {
-    "babel-polyfill": "^6.26.0"
-  }
+    "@oclif/dev-cli": "^1",
+    "@oclif/test": "^1",
+    "@oclif/tslint": "^1",
+    "@types/chai": "^4",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.5.8",
+    "chai": "^4",
+    "globby": "^8",
+    "nyc": "^12",
+    "ts-node": "^6",
+    "tslint": "^5",
+    "typescript": "^2.9"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "homepage": "https://titan-suite.com",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "titan",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "https://github.com/titan-suite/cli",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json npm-shrinkwrap.json",
+    "posttest": "tsc -p test --noEmit && tslint -p test -t stylish",
+    "prepack": "rm -rf lib && tsc && oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
+    "prepare": "rm -rf lib && tsc",
+    "test": "nyc mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
 }
