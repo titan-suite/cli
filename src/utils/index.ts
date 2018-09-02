@@ -1,9 +1,11 @@
 import * as fs from 'fs'
 import * as path from 'path'
-const download = require('download-git-repo')
+type callBackFunction = <T>(args: any[], cb: (err: any, res: T) => void) => void
+const download: callBackFunction = require('download-git-repo')
 const Web3 = require('aion-web3')
+import cli from 'cli-ux'
 
-const utf8 = { encoding: 'utf8' }
+const utf8 = {encoding: 'utf8'}
 
 let port: string
 let host: string
@@ -28,7 +30,6 @@ const init = () => {
     provider = `${host}:${port}`
     web3 = new Web3(new Web3.providers.HttpProvider(provider))
 }
-
 
 const contractPath = (contract: any) => {
     // optional .sol
@@ -58,13 +59,14 @@ export const compile = async function (sol: string) {
 export const unlock = async function (addr: string, pw: string) {
     init()
     return new Promise((resolve, reject) => {
-        web3.personal.unlockAccount(addr, pw, 999999, (err: any, unlock: Boolean) => {
-            if (err) reject(err)
+        web3.personal.unlockAccount(addr, pw, 999999, (err: any, unlock: boolean) => {
+            if (err) throw err
             else if (unlock && unlock === true) {
                 console.log('unlocked', addr)
                 resolve(addr)
             } else {
-                reject('unlock failed')
+                console.log('unlock failed')
+                reject('incorrect password')
             }
         })
     })
@@ -109,19 +111,33 @@ export const deploy = async function (abi: string, code: string, args?: any) {
     })
 }
 
-export const downloadPack = (_pack: string, _path?: string) => {
+const promisify = (fn: any, ...args: any[]) => new Promise((resolve, reject) => {
+    fn(...args, function (err: any, res: any) {
+        if (err) {
+            reject(err)
+        }
+        resolve(res)
+    })
+})
+
+export const downloadPack = async (_pack: string, _path?: string) => {
     const downloadPath = _path || process.cwd()
+    cli.action.start('downloading')
 
     switch (_pack) {
-        case "react":
-            download(`github:titan-suite-packs/react-pack`, downloadPath, function (err: any) {
-                console.log(err ? 'Error' : `Successfully unpacked react dApp`)
-            })
-            break;
+        case 'react':
+            await promisify(download, 'github:titan-suite-packs/react-pack', downloadPath)
+            break
+        case 'react-native':
+            await promisify(download, 'github:titan-suite-packs/react-native-pack', downloadPath)
+            break
+        case 'default':
+            promisify(download, 'github:titan-suite-packs/default-pack', downloadPath)
+            break
         default:
-            download(`github:titan-suite-packs/default-pack`, downloadPath, function (err: any) {
-                console.log(err ? 'Error' : `Successfully unpacked default dApp`)
-            })
-            break;
+            console.log('This pack is not available. View available packs at https://github.com/titan-suite-packs')
+            console.log('Run titan unpack -h for the correct usage')
     }
+
+    cli.action.stop()
 }
