@@ -1,31 +1,30 @@
-import { Command, flags } from '@oclif/command'
-import * as fs from 'fs'
+import {Command, flags} from '@oclif/command'
 import chalk from 'chalk'
-import { prompt, Answers } from 'inquirer'
-import { downloadPack } from '../utils/index'
+import * as fs from 'fs'
+import {Answers, prompt} from 'inquirer'
+
+import {downloadPack} from '../utils/index'
 
 export default class Init extends Command {
     static description = 'Create a new Titan environment'
 
     static examples = [
-        `$ titan init`,
-        `$ titan init <name>`,
+        '$ titan init',
+        '$ titan init <name>',
     ]
 
     static flags = {
-        help: flags.help({ char: 'h' }),
+        help: flags.help({char: 'h'}),
     }
 
-    static args = [{ name: 'newFolder' }]
-
+    static args = [{name: 'newFolder'}]
 
     async run() {
-        const { args } = this.parse(Init)
+        const {args} = this.parse(Init)
 
         if (args.newFolder) {
             downloadPack('default', `${args.newFolder}`)
-        }
-        else {
+        } else {
             fs.readdir(process.cwd(), async (err, files) => {
                 if (err) throw err
 
@@ -42,9 +41,8 @@ export default class Init extends Command {
                             choices: ['Yes', 'No']
                         }
                     ])
-                    answer['overwrite'] === 'Yes' ? downloadPack('default') : this.log('aborting...')
-                }
-                else {
+                    answer.overwrite === 'Yes' ? downloadPack('default') : this.log('aborting...')
+                } else {
                     downloadPack('default')
                 }
             })

@@ -1,19 +1,3 @@
 {
-  // "extends": "@oclif/tslint",
-  "quotemark": [
-    false,
-    "single"
-  ],
-  "semicolon": [
-    false,
-    "always",
-    "ignore-interfaces"
-  ],
-  "object-curly-spacing": [
-    true,
-    "always"
-  ],
-  "no-console": [
-    false
-  ]
+  "extends": "@oclif/tslint"
 }
