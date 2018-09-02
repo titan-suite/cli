@@ -132,7 +132,7 @@ export const downloadPack = async (_pack: string, _path?: string) => {
             await promisify(download, 'github:titan-suite-packs/react-native-pack', downloadPath)
             break
         case 'default':
-            promisify(download, 'github:titan-suite-packs/default-pack', downloadPath)
+            await promisify(download, 'github:titan-suite-packs/default-pack', downloadPath)
             break
         default:
             console.log('This pack is not available. View available packs at https://github.com/titan-suite-packs')

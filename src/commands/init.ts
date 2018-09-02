@@ -23,7 +23,7 @@ export default class Init extends Command {
         const {args} = this.parse(Init)
 
         if (args.newFolder) {
-            downloadPack('default', `${args.newFolder}`)
+            await downloadPack('default', `${args.newFolder}`)
         } else {
             fs.readdir(process.cwd(), async (err, files) => {
                 if (err) throw err
@@ -43,7 +43,7 @@ export default class Init extends Command {
                     ])
                     answer.overwrite === 'Yes' ? downloadPack('default') : this.log('aborting...')
                 } else {
-                    downloadPack('default')
+                    await downloadPack('default')
                 }
             })
         }

@@ -64,8 +64,7 @@ export default class Deploy extends Command {
         const boltsPath = path.join(process.cwd(), 'build', 'bolts', `${_name}.json`)
 
         mkdirp('build/bolts', err => {
-            if (err) throw err
-            else {
+            if (err) { throw err } else {
                 const deployedContractDetails = {
                     contract: _name,
                     abi: _abi,

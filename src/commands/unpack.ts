@@ -21,7 +21,7 @@ export default class Unpack extends Command {
         const {args} = this.parse(Unpack)
 
         if (args.pack) {
-            downloadPack(args.pack, `titan-${args.pack}`)
+            await downloadPack(args.pack, `titan-${args.pack}`)
         } else {
             let promptQuestions = [{
                 type: 'list',
@@ -31,7 +31,7 @@ export default class Unpack extends Command {
             }]
 
             const answer: Answers = await prompt(promptQuestions)
-            downloadPack(answer.selected_pack, `titan-${answer.selected_pack}`)
+            await downloadPack(answer.selected_pack, `titan-${answer.selected_pack}`)
         }
 
     }
