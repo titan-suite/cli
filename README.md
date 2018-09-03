@@ -1,19 +1,19 @@
+Titan CLI
+================
+
 <img src="https://s15.postimg.cc/spmnht6zf/Titan_Logo.png" width="100" height="100">  
 
-@titan-suite/cli
-================
 
 The complete Smart Contract development CLI
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@titan-suite/cli.svg)](https://npmjs.org/package/@titan-suite/cli)
-
 [![CircleCI](https://circleci.com/gh/titan-suite/cli/tree/master.svg?style=shield)](https://circleci.com/gh/titan-suite/cli/tree/master)
-
-<!-- [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/titan-suite/cli?branch=master&svg=true)](https://ci.appveyor.com/project/titan-suite/cli/branch/master)
+<!-- [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/titan-suite/cli?branch=master&svg=true)](https://ci.appveyor.com/project/titan-suite/cli/branch/master) 
 [![Codecov](https://codecov.io/gh/titan-suite/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/titan-suite/cli) -->
 [![Downloads/week](https://img.shields.io/npm/dw/@titan-suite/cli.svg)](https://npmjs.org/package/@titan-suite/cli)
 [![License](https://img.shields.io/npm/l/@titan-suite/cli.svg)](https://github.com/titan-suite/cli/blob/master/package.json)
+[![Chat](http://img.shields.io/badge/titan-suite/Lobby-f81a65.svg)]( https://gitter.im/titan-suite/Lobby )
 
 
 # Usage
@@ -56,7 +56,7 @@ Start a new project with a pre-built dApp
     - choose a pack from the options
 - `titan unpack <name>`
 
-![](https://s15.postimg.cc/cj1jgqrzf/unpack.gif)
+![](https://s15.postimg.cc/q8h1wpi5n/unpack.gif)
 
 ## `titan compile`
 
@@ -79,7 +79,8 @@ Deploy a smart contract to an AION node
     - `titan deploy -p 5 path/to/contracts/Example.sol`
 _The details of the deployed contract will be stored as `./build/bots/<contractName>.json`_
 
-![](https://s15.postimg.cc/rf02obvob/deploy.gif)
+
+![](https://s15.postimg.cc/5a6al0y3v/deploy.gif)
 
 ## `titan lint`
 
@@ -100,12 +101,14 @@ Run unit tests
 ## `titan unlock`
 
 Unlock an account
+
+_You may be prompted to enter an AION address and/or password_
+
 - `titan unlock`
 - with the account specified
     - `titan unlock -a <0x..>`
 - with both the account and password specified
     - `titan unlock -a <0x...> -p <pwd>`
-_You will be prompted to enter an AION address and password_
 
 ![](https://s15.postimg.cc/ulum7y8ej/unlock.gif)
 
@@ -115,3 +118,13 @@ Interact with an AION node with an injected `aion-web3` instance
 - `titan console`
 
 ![](https://s15.postimg.cc/twbtvmpvf/console.gif)
+
+
+# Test
+
+- Create a `titanrc.js` as specified above
+- `yarn test`
+
+# Community
+
+Join us on [Gitter](https://gitter.im/titan-suite/Lobby#)
