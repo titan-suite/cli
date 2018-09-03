@@ -1,7 +1,7 @@
 {
   "name": "@titan-suite/cli",
   "description": "The complete smart contract development tool",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": "Tomisin @ToJen",
   "bin": {
     "titan": "./bin/run"
@@ -54,7 +54,14 @@
   ],
   "homepage": "https://titan-suite.com",
   "keywords": [
-    "oclif"
+    "blockchain",
+    "titan-suite",
+    "titan",
+    "aion",
+    "smart contract",
+    "developer tools",
+    "oclif",
+    "cli"
   ],
   "license": "Apache-2.0",
   "main": "lib/index.js",
