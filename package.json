@@ -1,7 +1,7 @@
 {
   "name": "@titan-suite/cli",
   "description": "The complete smart contract development tool",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Tomisin @ToJen",
   "bin": {
     "titan": "./bin/run"

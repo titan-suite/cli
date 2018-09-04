@@ -33,10 +33,7 @@ export default class Deploy extends Command {
     }]
 
     generateChoices(arr: string[]) {
-        this.log('generating choices for', arr)
-        // let i: any
         for (let i of arr) {
-            this.log(i)
             this.questions[0].choices.push(i)
         }
     }
@@ -101,7 +98,6 @@ export default class Deploy extends Command {
             contractName = Object.keys(compiledContract)[0]
             await this.handleDeploy(contractName, compiledContract, flags.params)
         } else {
-            Object(compiledContract).entries((i: any) => this.log(i))
             this.generateChoices(Object.keys(compiledContract))
 
             const answer: Answers = await prompt(this.questions)
