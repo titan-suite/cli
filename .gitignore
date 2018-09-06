@@ -10,3 +10,4 @@ test/build
 test/titanrc.js
 /titanrc.js
 .vscode
+dockerfile
