@@ -6,7 +6,7 @@ export default class Test extends Command {
     static description = 'Run unit tests that interact Solidity smart contract'
 
     static examples = [
-        '$ titan test <path/to/Example.sol>',
+        '$ titan test <path/to/test/testExample.js>',
     ]
 
     static flags = {

@@ -94,7 +94,7 @@ Lint a smart contract
 ## `titan test`
 
 Run unit tests
-- `titan test path/to/contracts/testExample.js`
+- `titan test path/to/test/testExample.js`
 
 ![](https://s15.postimg.cc/okwxawod7/test.gif)
 
