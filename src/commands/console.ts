@@ -7,11 +7,14 @@ export default class Console extends Command {
 
     static examples = [
         '$ titan console',
+        '$ titan console http://127.0.0.1:8545',
     ]
 
     static flags = {
         help: flags.help({char: 'h'}),
     }
+
+    static args = [{name: 'provider'}]
 
     testWeb3(_provider: string) {
         let _w3 = new Web3(new Web3.providers.HttpProvider(_provider))
@@ -19,9 +22,16 @@ export default class Console extends Command {
     }
 
     async run() {
-        const {host, port} = require(`${process.cwd()}/titanrc.js`)
+        const {args} = this.parse(Console)
+        let provider: string
 
-        const provider = `${host}:${port}`
+        if(args.provider) {
+            provider = args.provider
+        } else {
+            const {networks} = require(`${process.cwd()}/titanrc.js`)
+            const {host, port} = networks.development
+            provider = `${host}:${port}`
+        }
 
         try {
             this.testWeb3(provider)
