@@ -26,15 +26,18 @@ const init = () => {
         throw new Error(`${titanrcPath} not found`)
     }
     const titanrc = require(titanrcPath)
-    port = titanrc.port || 8545
-    host = titanrc.host || '127.0.0.1'
-    defaultAccount = titanrc.defaultAccount
+    const {networks} = titanrc
+    if (!networks || Object.keys(networks).length === 0) {
+        throw new Error('Please specify at least one network to connect to in your titanrc file')
+    }
+    port = networks.development.port
+    host = networks.development.host
+    defaultAccount = networks.development.defaultAccount
     provider = `${host}:${port}`
     web3 = new Web3(new Web3.providers.HttpProvider(provider))
 }
 
 const contractPath = (contract: any) => {
-    // optional .sol
     const contractFile = contract.endsWith('.sol') ? contract : `${contract}.sol`
     return path.join(process.cwd(), contractFile)
 }
