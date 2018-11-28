@@ -1,9 +1,11 @@
+import cli from 'cli-ux'
 import * as fs from 'fs'
+import * as mkdirp from 'mkdirp'
 import * as path from 'path'
 type callBackFunction = <T>(args: any[], cb: (err: any, res: T) => void) => void
 const download: callBackFunction = require('download-git-repo')
 const Web3 = require('aion-web3')
-import cli from 'cli-ux'
+import {getTemplateContract, getTemplateTest} from './templates'
 
 const utf8 = {encoding: 'utf8'}
 
@@ -140,4 +142,37 @@ export const downloadPack = async (_pack: string, _path?: string) => {
     }
 
     cli.action.stop()
+}
+
+export const createTemplate = async (type: string, name: string) => {
+    cli.action.start(`creating new ${type} file`)
+    let boltPath: string
+    let template: string
+
+    switch (type) {
+        case 'contract':
+            boltPath = path.join(process.cwd(), 'contracts', `${name}.sol`)
+            template = await getTemplateContract(name)
+            createFile('contracts', boltPath, template)
+            break
+        case 'test':
+            boltPath = path.join(process.cwd(), 'test', `${name}.js`)
+            template = await getTemplateTest(name)
+            createFile('test', boltPath, template)
+            break
+        // case 'migration':
+        //     break
+        default:
+    }
+    cli.action.stop()
+}
+
+const createFile = async (name: string, filePath: string, content: string) => {
+    mkdirp(name, err => {
+        if (err) { throw err } else {
+            fs.writeFile(filePath, content, err => {
+                if (err) throw err
+            })
+        }
+    })
 }
