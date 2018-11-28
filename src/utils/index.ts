@@ -42,7 +42,7 @@ const contractPath = (contract: any) => {
     return path.join(process.cwd(), contractFile)
 }
 
-const readUtf8 = (absolutePath: string) => fs.readFileSync(absolutePath, utf8)
+export const readUtf8 = (absolutePath: string) => fs.readFileSync(absolutePath, utf8)
 
 export const readContract = (contract: any) => readUtf8(contractPath(contract))
 

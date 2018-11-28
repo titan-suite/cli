@@ -6,7 +6,7 @@ import * as mkdirp from 'mkdirp'
 import * as notifier from 'node-notifier'
 import * as path from 'path'
 
-import {compile, deploy, readContract} from '../utils/index'
+import {compile, deploy, readContract, readUtf8} from '../utils/index'
 
 export default class Deploy extends Command {
     static description = 'Deploys a Solidity smart contract to an AION node'
@@ -46,6 +46,8 @@ export default class Deploy extends Command {
         const deployedContract: any = _params ?
             await deploy(_abi, _code, _params) :
             await deploy(_abi, _code)
+        const timeStamp: Date = new Date()
+        const deployedAt: number = timeStamp.getTime()
 
         this.log('Successfully deployed!')
         this.log('Deployment Details:')
@@ -60,16 +62,35 @@ export default class Deploy extends Command {
 
         const boltsPath = path.join(process.cwd(), 'build', 'bolts', `${_name}.json`)
 
+        const exists = fs.existsSync(boltsPath)
+        let migrations: any[] = []
+        const newMigration = {
+            [deployedAt]: {
+                address: deployedContract.contractAddress,
+                transaction_hash: deployedContract.transactionHash,
+                block_number: deployedContract.blockNumber
+            }
+        }
+
+        if (exists) {
+            const _bolt: any = readUtf8(boltsPath)
+            migrations = JSON.parse(_bolt).migrations
+            migrations.push(newMigration)
+
+        } else {
+            migrations.push(newMigration)
+        }
+
         mkdirp('build/bolts', err => {
             if (err) { throw err } else {
-                const deployedContractDetails = {
+                const bolt = {
                     contract: _name,
                     abi: _abi,
-                    deployed_address: deployedContract.contractAddress,
-                    transaction_hash: deployedContract.transactionHash,
-                    block_number: deployedContract.blockNumber
+                    migrations,
+                    updated: timeStamp.toString()
                 }
-                fs.writeFile(boltsPath, JSON.stringify(deployedContractDetails, null, 4), err => {
+
+                fs.writeFile(boltsPath, JSON.stringify(bolt, null, 4), err => {
                     if (err) throw err
                 })
             }
