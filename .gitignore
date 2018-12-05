@@ -7,7 +7,7 @@
 node_modules
 build
 test/build
-/test/titanrc.js
+test/titanrc.js
 /titanrc.js
 .vscode
 dockerfile
