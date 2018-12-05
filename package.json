@@ -2,7 +2,6 @@
   "name": "@titan-suite/cli",
   "description": "The complete smart contract development tool",
   "version": "0.1.7",
-  "author": "Tomisin @ToJen",
   "bin": {
     "titan": "./bin/run"
   },
@@ -14,7 +13,9 @@
     "@types/inquirer": "^0.0.42",
     "@types/mkdirp": "^0.5.2",
     "@types/node-notifier": "^0.0.28",
-    "aion-web3": "^0.0.3",
+    "@titan-suite/core": "git+https://26f3e2f59debaad49d75f94d503ccd5ff5bae190:x-oauth-basic@github.com/arjitkhullar/core",
+    "aion-web3": "^1.1.0",
+    "solc": "github:tojen/solc-js#aion_emscripten",
     "chalk": "^2.4.1",
     "child_process": "^1.0.2",
     "cli-ux": "^4.8.0",

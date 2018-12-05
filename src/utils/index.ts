@@ -1,10 +1,11 @@
+import {Aion} from '@titan-suite/core'
+import Web3 from 'aion-web3'
 import cli from 'cli-ux'
+import * as download from 'download-git-repo'
 import * as fs from 'fs'
 import * as mkdirp from 'mkdirp'
 import * as path from 'path'
-type callBackFunction = <T>(args: any[], cb: (err: any, res: T) => void) => void
-const download: callBackFunction = require('download-git-repo')
-const Web3 = require('aion-web3')
+
 import {getTemplateContract, getTemplateTest} from './templates'
 
 const utf8 = {encoding: 'utf8'}
@@ -16,9 +17,6 @@ let provider: string
 let web3: any
 
 const init = () => {
-    if (web3 !== undefined) {
-        return
-    }
     const titanrcPath = path.join(process.cwd(), 'titanrc.js')
     const titanrcExists = fs.existsSync(titanrcPath)
     if (titanrcExists === false) {
