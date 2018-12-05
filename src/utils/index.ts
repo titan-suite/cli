@@ -17,7 +17,6 @@ let web3: any
 
 const init = () => {
     if (web3 !== undefined) {
-        // its already initialized
         return
     }
     const titanrcPath = path.join(process.cwd(), 'titanrc.js')
