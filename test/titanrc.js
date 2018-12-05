@@ -1,6 +1,22 @@
 module.exports = {
-    "host": "http://127.0.0.1",
-    "port": 8545,
-    "defaultAccount": "",
-    "password": ""
+    networks: {
+        development: {
+            "host": "",
+            "port": 80,
+            "defaultAccount": "",
+            "password": ""
+        },
+        mainnet: {
+            "host": "",
+            "port": 80,
+            "defaultAccount": "",
+            "password": ""
+        },
+        testnet: {
+            "host": "",
+            "port": 80,
+            "defaultAccount": "",
+            "password": ""
+        }
+    }
 }
