@@ -1,21 +1,31 @@
 import {Command, flags} from '@oclif/command'
-const titanrc = require(`${process.cwd()}/titanrc.js`)
-const {networks} = titanrc
+
+import {getConfig} from '../utils'
 
 export default class Networks extends Command {
-    static description = 'Returns all networks specified in the Titan project'
+  static description = 'Returns all networks specified in the Titan project'
 
-    static examples = [
-        '$ titan networks',
-    ]
+  static examples = ['$ titan networks']
 
-    static flags = {
-        help: flags.help({char: 'h'}),
-    }
+  static flags = {
+    help: flags.help({char: 'h'}),
+    blockchain: flags.string({
+      char: 'b',
+      description: 'the specified networks for a particular blockchain'
+    })
+  }
 
-    async run() {
-        Object.keys(networks).forEach((network: any, index: number) => {
-            this.log(`${index}: [${network}] ${networks[network].host}`)
-        })
-    }
+  async run() {
+    const {flags} = this.parse(Networks)
+
+    const config = getConfig()
+
+    const selectedBlockchain = flags.blockchain
+      ? flags.blockchain
+      : config.defaultBlockchain
+    const {networks} = config.blockchains[`${selectedBlockchain}`]
+    Object.keys(networks).forEach((network: string) => {
+      this.log(`[${network}] ${networks[network].host}`)
+    })
+  }
 }
