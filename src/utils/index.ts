@@ -4,14 +4,16 @@ import * as download from 'download-git-repo'
 import * as fs from 'fs'
 import * as mkdirp from 'mkdirp'
 import * as path from 'path'
+import * as solc from 'solc'
 
 import {getTemplateContract, getTemplateTest} from './templates'
 
 const utf8 = {encoding: 'utf8'}
 
 let defaultAccount: string
+let currentNetwork: string
 
-export interface Execute {
+interface DeployInfo {
   code: string
   abi?: any[]
   from?: string
@@ -31,8 +33,11 @@ export const getConfig = () => {
   return config
 }
 
-export const getProvider = () => {
-  // TODO get active blockchain and default account
+export const getCurrentNetwork = () => {
+  return currentNetwork
+}
+
+export const getProvider = (targetNetwork?: string) => {
   const config = getConfig()
   const {networks} = config.blockchains.aion
   if (!networks || Object.keys(networks).length === 0) {
@@ -40,11 +45,17 @@ export const getProvider = () => {
       'Please specify at least one network to connect to in your titanrc file'
     )
   }
-  const host = networks.development.host
-  const port = networks.development.port
-  defaultAccount = networks.development.defaultAccount
-  const provider = `${host}:${port}`
-  return provider
+  currentNetwork =
+    targetNetwork && targetNetwork.length > 0 ? targetNetwork : 'development'
+  try {
+    defaultAccount = networks[`${currentNetwork}`].defaultAccount
+    const provider = networks[`${currentNetwork}`].host
+    return provider
+  } catch {
+    throw Error(
+      "Please specify a target network or ensure 'development' is one of the networks"
+    )
+  }
 }
 
 const contractPath = (contract: any) => {
@@ -57,10 +68,18 @@ export const readUtf8 = (absolutePath: string) =>
 
 export const readContract = (contract: any) => readUtf8(contractPath(contract))
 
-export const compile = async function (sol: string) {
-  const nodeAddress: string = getProvider()
-  const aion = new Aion(nodeAddress)
-  return aion.compile(sol)
+export const compile = async function (sol: string, locally: boolean) {
+  if (locally) {
+    return new Promise((resolve, reject) => {
+      const {contracts, errors} = solc.compile(sol, 1)
+      if (errors) reject(errors)
+      resolve(contracts)
+    })
+  } else {
+    const nodeAddress: string = getProvider()
+    const aion = new Aion(nodeAddress)
+    return aion.compile(sol)
+  }
 }
 
 export const unlock = async function (addr: string, pw: string) {
@@ -72,14 +91,16 @@ export const unlock = async function (addr: string, pw: string) {
   cli.action.stop(message)
 }
 
-export const deploy = async function ({abi, code, args, privateKey}: Execute) {
-  const nodeAddress: string = getProvider()
+export const deploy = async function (
+  {abi, code, args, privateKey}: DeployInfo,
+  targetNetwork?: string
+) {
+  const nodeAddress: string = getProvider(targetNetwork)
   const aion = new Aion(nodeAddress)
   let from
 
   if (privateKey) {
     from = await aion.web3.eth.accounts.privateKeyToAccount(privateKey)
-    console.log('using private key', privateKey)
   } else {
     from = defaultAccount || (await aion.getAccounts())[0]
   }
@@ -148,7 +169,7 @@ export const createTemplate = async (type: string, name: string) => {
       template = await getTemplateTest(name)
       createFile('test', boltPath, template)
       break
-    // case 'migration':
+    // case 'migration': // TODO
     //     break
     default:
   }
