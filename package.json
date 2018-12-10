@@ -10,7 +10,7 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
-    "@titan-suite/core": "git+https://26f3e2f59debaad49d75f94d503ccd5ff5bae190:x-oauth-basic@github.com/arjitkhullar/core",
+    "@titan-suite/core": "github:titan-suite/core",
     "@types/inquirer": "^0.0.42",
     "@types/mkdirp": "^0.5.2",
     "@types/node-notifier": "^0.0.28",

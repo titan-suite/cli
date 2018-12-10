@@ -47,6 +47,10 @@ export default class Compile extends Command {
     return output
   }
 
+  //   buildBolt = (compiledContract: any) => {
+
+  //   }
+
   stringifyOutput = (o: any) => {
     return JSON.stringify(o, null, 2)
   }
@@ -70,6 +74,12 @@ export default class Compile extends Command {
         ? `:${flags.name}`
         : flags.name
       : undefined
+
+    try {
+      compiled[`${contractName}`].info
+    } catch {
+      this.error('The specified contract name does not exist')
+    }
 
     if (contractName && flags.detailed) {
       this.log(this.stringifyOutput(compiled[`${contractName}`]))

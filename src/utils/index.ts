@@ -97,14 +97,23 @@ export const deploy = async function (
 ) {
   const nodeAddress: string = getProvider(targetNetwork)
   const aion = new Aion(nodeAddress)
-  let from
+  let from: string
 
   if (privateKey) {
     from = await aion.web3.eth.accounts.privateKeyToAccount(privateKey)
   } else {
     from = defaultAccount || (await aion.getAccounts())[0]
   }
-  return aion.deploy({code, abi, from, args, privateKey})
+
+  return aion
+    .deploy({code, abi, from, args, privateKey})
+    .then(txReceipt => {
+      return txReceipt
+    })
+    .catch(error => {
+      console.error(/Error:\s+(.+)/gi.exec(error)![1])
+      return error
+    })
 }
 
 const promisify = (fn: any, ...args: any[]) =>

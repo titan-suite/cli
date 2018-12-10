@@ -1,4 +1,5 @@
 import {Command, flags} from '@oclif/command'
+import {Aion} from '@titan-suite/core'
 import cli from 'cli-ux'
 import * as fs from 'fs'
 import {Answers, prompt} from 'inquirer'
@@ -6,7 +7,14 @@ import * as mkdirp from 'mkdirp'
 import * as notifier from 'node-notifier'
 import * as path from 'path'
 
-import {compile, deploy, readContract, readUtf8} from '../utils/index'
+import {
+  compile,
+  deploy,
+  getCurrentNetwork,
+  getProvider,
+  readContract,
+  readUtf8
+} from '../utils/index'
 
 export default class Deploy extends Command {
   static description = 'Deploys a Solidity smart contract to an AION node'
@@ -15,7 +23,8 @@ export default class Deploy extends Command {
     '$ titan deploy <path/to/Example.sol>',
     '$ titan deploy -n SpecificContract <path/to/ManyContracts.sol>',
     '$ titan deploy -p 5 <path/to/ContractWithParams.sol>',
-    '$ titan deploy -k 0xa... <path/to/ContractWithParams.sol>'
+    '$ titan deploy -k <path/to/ContractWithParams.sol>',
+    '$ titan deploy -t development <path/to/ContractWithParams.sol>'
   ]
 
   static flags = {
@@ -26,11 +35,16 @@ export default class Deploy extends Command {
     }),
     params: flags.string({
       char: 'p',
-      description: 'pass parameters to the smart contract'
+      description: 'pass parameters to the smart contract',
+      multiple: true
     }),
     privateKey: flags.boolean({
       char: 'k',
       description: 'pass parameters to the smart contract'
+    }),
+    network: flags.string({
+      char: 't',
+      description: 'specify the network to deploy the smart contract'
     })
   }
 
@@ -53,6 +67,16 @@ export default class Deploy extends Command {
     }
   ]
 
+  deployToMainnetPrompt: Array<any> = [
+    {
+      type: 'list',
+      name: 'confirm',
+      message:
+        "You're about to deploy to the mainnet. Would you like to proceed?",
+      choices: ['Yes', 'No']
+    }
+  ]
+
   generateChoices(arr: string[]) {
     for (let i of arr) {
       this.contractChoicePrompt[0].choices.push(i)
@@ -63,31 +87,30 @@ export default class Deploy extends Command {
     name: string,
     compiledContract: any,
     params?: any[],
-    privateKey?: string
+    privateKey?: string,
+    targetNetwork?: string
   ) {
     cli.action.start('deploying')
     const abi = compiledContract[`${name}`].info.abiDefinition
     const code = compiledContract[`${name}`].code
 
-    const {txReceipt}: any = await deploy({
-      abi,
-      code,
-      args: params,
-      privateKey
-    })
+    const {txReceipt, error}: any = await deploy(
+      {
+        abi,
+        code,
+        args: params,
+        privateKey
+      },
+      targetNetwork
+    )
+
+    if (error) {
+      this.error(/Error:\s+(.+)/gi.exec(error)![1])
+    }
+
     const timeStamp: Date = new Date()
     const deployedAt: number = timeStamp.getTime()
-
-    // this.log('Successfully deployed!')
-    // this.log('Deployment Details:')
-    // this.log('contract:', name)
-    // this.log('address:', txReceipt.contractAddress)
-    // this.log('transaction hash:', txReceipt.transactionHash)
-    // this.log('NRG used:', txReceipt.nrgUsed)
-    // this.log('block number:', txReceipt.blockNumber)
-    // this.log('from:', txReceipt.from)
-    // this.log('to:', txReceipt.to)
-    // this.log('logs:', txReceipt.logs)
+    const currentNetwork = getCurrentNetwork()
 
     const boltsPath = path.join(
       process.cwd(),
@@ -100,6 +123,7 @@ export default class Deploy extends Command {
     let migrations: any[] = []
     const newMigration = {
       [deployedAt]: {
+        network: currentNetwork,
         address: txReceipt.contractAddress,
         transactionHash: txReceipt.transactionHash,
         blockNumber: txReceipt.blockNumber
@@ -142,15 +166,39 @@ export default class Deploy extends Command {
   async run() {
     const {args, flags} = this.parse(Deploy)
 
+    if (flags.network) {
+      const nodeAddress: string = getProvider(flags.network)
+      const aion = new Aion(nodeAddress)
+      const netId = await aion.getNetworkId()
+      if ((netId === 256 || netId === 32) && !flags.privateKey) {
+        this.error(
+          'You must set the private key flag to deploy to this network. Run again with -k or run "titan deploy --help"'
+        )
+      }
+    }
+
+    if (flags.network === 'mainnet') {
+      const answer: Answers = await prompt(this.deployToMainnetPrompt)
+      answer.confirm === 'No'
+        ? this.exit(0)
+        : this.warn('Proceeding to deploy to mainnet')
+    }
+
     const sol = readContract(args.file)
-    const compiledContract: any = await compile(sol)
+    const compiledContract: any = await compile(sol, false)
 
     let contractName
     let privateKey
+    let targetNetwork = flags.network ? flags.network : ''
+    const params = flags.params ? flags.params : []
 
     if (flags.privateKey) {
       const answer: Answers = await prompt(this.privateKeyPrompt)
       privateKey = answer.privateKey
+      if (privateKey && privateKey.length === 130) {
+      } else {
+        this.error('Please provide a valid private key')
+      }
     }
 
     if (flags.name) {
@@ -162,7 +210,19 @@ export default class Deploy extends Command {
       const answer: Answers = await prompt(this.contractChoicePrompt)
       contractName = answer.selected_contract
     }
-    let params = flags.params ? flags.params.split(',') : []
-    await this.handleDeploy(contractName, compiledContract, params, privateKey)
+
+    try {
+      compiledContract[`${contractName}`].info
+    } catch {
+      this.error('The specified contract name does not exist')
+    }
+
+    await this.handleDeploy(
+      contractName,
+      compiledContract,
+      params,
+      privateKey,
+      targetNetwork
+    )
   }
 }
