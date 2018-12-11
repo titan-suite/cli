@@ -1,10 +1,12 @@
 const Web3 = require('aion-web3');
+const titanrc = require(`${process.cwd()}/titanrc.js`);
+const {networks} = titanrc
 const {
   host,
   port,
   defaultAccount,
   password
-} = require(`${process.cwd()}/titanrc.js`);
+ } = networks.development
 const provider = `${host}:${port}`;
 
 const web3 = new Web3(new Web3.providers.HttpProvider(provider))
