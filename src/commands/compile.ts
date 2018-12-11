@@ -1,6 +1,9 @@
 import {Command, flags} from '@oclif/command'
+import * as fs from 'fs'
+import * as mkdirp from 'mkdirp'
+import * as path from 'path'
 
-import {compile, readContract} from '../utils/index'
+import {Bolt, compile, readContract, readUtf8} from '../utils/index'
 
 export default class Compile extends Command {
   static description =
@@ -44,12 +47,43 @@ export default class Compile extends Command {
         bytecode: compiledContract[`${name}`].code
       }
     }
+    const updated: string = new Date().toString()
+    const data: Bolt = {name, ...output, updated}
+    this.buildBolt(data)
     return output
   }
 
-  //   buildBolt = (compiledContract: any) => {
+  buildBolt = (data: Bolt) => {
+    const boltsPath = path.join(
+      process.cwd(),
+      'build',
+      'bolts',
+      `${data.name}.json`
+    )
 
-  //   }
+    let newBolt!: Bolt
+
+    const exists = fs.existsSync(boltsPath)
+
+    if (exists) {
+      const old: any = readUtf8(boltsPath)
+      newBolt = JSON.parse(old)
+      newBolt.abi = data.abi
+      newBolt.bytecode = data.bytecode
+    } else {
+      newBolt = data
+    }
+
+    mkdirp('build/bolts', err => {
+      if (err) {
+        throw err
+      } else {
+        fs.writeFile(boltsPath, JSON.stringify(newBolt, null, 4), err => {
+          if (err) throw err
+        })
+      }
+    })
+  }
 
   stringifyOutput = (o: any) => {
     return JSON.stringify(o, null, 2)
@@ -76,7 +110,7 @@ export default class Compile extends Command {
       : undefined
 
     try {
-      compiled[`${contractName}`].info
+      if (flags.name) compiled[`${contractName}`].info
     } catch {
       this.error('The specified contract name does not exist')
     }

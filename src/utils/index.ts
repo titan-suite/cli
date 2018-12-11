@@ -13,6 +13,14 @@ const utf8 = {encoding: 'utf8'}
 let defaultAccount: string
 let currentNetwork: string
 
+export interface Bolt {
+  name: string
+  abi: any[]
+  bytecode: string
+  migrations?: any[]
+  updated?: string
+}
+
 interface DeployInfo {
   code: string
   abi?: any[]
