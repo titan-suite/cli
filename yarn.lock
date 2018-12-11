@@ -209,7 +209,7 @@
 
 "@titan-suite/core@github:titan-suite/core":
   version "0.0.0"
-  resolved "git+ssh://git@github.com/titan-suite/core.git#45680ed0d7b6c5a29ede22c4b6c8f0dc3b324980"
+  resolved "https://codeload.github.com/titan-suite/core/tar.gz/367c50edaebb34864ac5975eebd3265ac1651a6b"
   dependencies:
     aion-web3 "^1.1.0"
     web3 "^1.0.0-beta.36"
@@ -226,8 +226,8 @@
     "@types/through" "*"
 
 "@types/lodash@^4.14.116":
-  version "4.14.118"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.118.tgz#247bab39bfcc6d910d4927c6e06cbc70ec376f27"
+  version "4.14.119"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.119.tgz#be847e5f4bc3e35e46d041c394ead8b603ad8b39"
 
 "@types/mkdirp@^0.5.2":
   version "0.5.2"
@@ -2192,8 +2192,8 @@ get-caller-file@^1.0.1:
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
 
 get-caller-file@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.0.tgz#1e119be08623cdb28fb6b2873e671a758aa2b6eb"
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.1.tgz#25835260d3a2b9665fcdbb08cb039a7bbf7011c0"
 
 get-func-name@^2.0.0:
   version "2.0.0"
@@ -4283,8 +4283,8 @@ snapdragon@^0.8.1:
     yargs "^4.7.1"
 
 solhint@^1.2.1:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/solhint/-/solhint-1.4.0.tgz#59018cfc86e2fc268c8b520322ab1e0db1fdb94b"
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/solhint/-/solhint-1.4.1.tgz#921ef9fed83dc945853079865140730d4d2140b2"
   dependencies:
     antlr4 "4.7.1"
     commander "2.18.0"
@@ -4808,9 +4808,9 @@ typedarray-to-buffer@^3.1.2:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^2.9:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+typescript@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.2.tgz#fe8101c46aa123f8353523ebdcf5730c2ae493e5"
 
 uglify-js@^3.1.4:
   version "3.4.9"

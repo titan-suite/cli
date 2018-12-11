@@ -42,7 +42,7 @@
     "nyc": "^12",
     "ts-node": "^6",
     "tslint": "^5",
-    "typescript": "^2.9"
+    "typescript": "^3.2.2"
   },
   "engines": {
     "node": ">=8.0.0"
