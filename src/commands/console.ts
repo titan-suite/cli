@@ -4,8 +4,7 @@ const repl = require('repl')
 import {getCurrentNetwork, getProvider} from '../utils'
 
 export default class Console extends Command {
-  static description =
-    'Interact with your AION node through an `aion-web3` instance.'
+  static description = 'Interact with an AION node'
 
   static examples = ['$ titan console', '$ titan console -t development']
 

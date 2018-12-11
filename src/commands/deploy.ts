@@ -18,7 +18,7 @@ import {
 } from '../utils/index'
 
 export default class Deploy extends Command {
-  static description = 'Deploys a Solidity smart contract to an AION node'
+  static description = 'Deploy a Solidity smart contract to an AION node'
 
   static examples = [
     '$ titan deploy <path/to/Example.sol>',

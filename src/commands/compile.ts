@@ -6,8 +6,7 @@ import * as path from 'path'
 import {Bolt, compile, readContract, readUtf8} from '../utils/index'
 
 export default class Compile extends Command {
-  static description =
-    'Compiles a Solidity smart contract and returns the ABI and bytecode'
+  static description = 'Compile a Solidity smart contract'
 
   static examples = [
     '$ titan compile <path/to/Example.sol>',

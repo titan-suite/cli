@@ -3,7 +3,7 @@ import {Command, flags} from '@oclif/command'
 import {getConfig} from '../utils'
 
 export default class Networks extends Command {
-  static description = 'Returns all networks specified in the Titan project'
+  static description = 'List all networks specified in the Titan config file'
 
   static examples = ['$ titan networks']
 

@@ -5,8 +5,7 @@ import * as path from 'path'
 import Deploy from './deploy'
 
 export default class Migrate extends Command {
-  static description =
-    'Run unit migrates that interact Solidity smart contract'
+  static description = 'Run migrations to deploy contracts'
 
   static examples = [
     '$ titan migrate',

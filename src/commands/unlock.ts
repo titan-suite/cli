@@ -4,7 +4,7 @@ import {Answers, prompt} from 'inquirer'
 import {unlock} from '../utils/index'
 
 export default class Unlock extends Command {
-  static description = 'Unlocks an AION account'
+  static description = 'Unlock an AION account'
 
   static examples = [
     '$ titan unlock',
