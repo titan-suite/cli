@@ -10,4 +10,8 @@ contract Simple {
     function setNum(uint128 a) public {
         num = a;
     }
+
+    function sayHi() public returns (string) {
+        return "hi";
+    }
 }

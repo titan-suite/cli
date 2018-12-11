@@ -8,6 +8,7 @@ import * as notifier from 'node-notifier'
 import * as path from 'path'
 
 import {
+  Bolt,
   compile,
   deploy,
   getCurrentNetwork,
@@ -83,6 +84,27 @@ export default class Deploy extends Command {
     }
   }
 
+  async deploy(boltData: Bolt) {
+    const {name, abi, bytecode} = boltData
+    if (!name || !abi || !bytecode) {
+      this.error(
+        'The required bolt json is incomplete. Try compiling the contract again.'
+      )
+      this.exit(0)
+    }
+
+    const compiledContract = {
+      [name]: {
+        info: {
+          abiDefinition: abi
+        },
+        code: bytecode
+      }
+    }
+
+    return this.handleDeploy(name, compiledContract)
+  }
+
   async handleDeploy(
     name: string,
     compiledContract: any,
@@ -131,8 +153,9 @@ export default class Deploy extends Command {
     }
 
     if (exists) {
-      const bolt: any = readUtf8(boltsPath)
-      migrations = JSON.parse(bolt).migrations
+      const data: any = readUtf8(boltsPath)
+      const bolt = JSON.parse(data)
+      migrations = 'migrations' in bolt ? bolt.migrations : []
       migrations.push(newMigration)
     } else {
       migrations.push(newMigration)
@@ -143,8 +166,9 @@ export default class Deploy extends Command {
         throw err
       } else {
         const bolt = {
-          contract: name,
+          name,
           abi,
+          bytecode: code,
           migrations,
           updated: timeStamp.toString()
         }
@@ -161,6 +185,8 @@ export default class Deploy extends Command {
       title: 'Titan',
       message: `🚀 Successfully deployed: ${name}!`
     })
+
+    return txReceipt.contractAddress
   }
 
   async run() {

@@ -11,3 +11,5 @@ test/titanrc.js
 /titanrc.js
 .vscode
 dockerfile
+migrations
+!test/migrations
