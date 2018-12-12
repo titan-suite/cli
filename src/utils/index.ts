@@ -1,10 +1,11 @@
 import {Aion} from '@titan-suite/core'
 import cli from 'cli-ux'
+
+import * as aionSolc from 'aion-solc'
 import * as download from 'download-git-repo'
 import * as fs from 'fs'
 import * as mkdirp from 'mkdirp'
 import * as path from 'path'
-import * as solc from 'solc'
 
 import {getTemplateContract, getTemplateTest} from './templates'
 
@@ -79,7 +80,7 @@ export const readContract = (contract: any) => readUtf8(contractPath(contract))
 export const compile = async function (sol: string, locally: boolean) {
   if (locally) {
     return new Promise((resolve, reject) => {
-      const {contracts, errors} = solc.compile(sol, 1)
+      const {contracts, errors} = aionSolc.compile(sol, 1)
       if (errors) reject(errors)
       resolve(contracts)
     })
